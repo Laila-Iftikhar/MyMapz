@@ -50,7 +50,7 @@ import java.util.ArrayList;
 
 import static com.example.laylaiftikhar.mymapz.LoginActivity.phone;
 
-public class VerificationDrawerActivity extends AppCompatActivity-
+public class VerificationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     final Context context = this;
     private Button button;
