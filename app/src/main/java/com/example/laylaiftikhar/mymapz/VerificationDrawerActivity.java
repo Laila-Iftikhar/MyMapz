@@ -56,7 +56,7 @@ public class VerificationDrawerActivity extends AppCompatActivity
     private Button button;
     //this is the number wala et
     private EditText resultt,  remail, rpassword, rname, confirmpassword;
-    private String otp;
+    public static String otp, otp2;
     int  randomPIN;
     int validated;
     String urlParameters;
@@ -73,6 +73,7 @@ public class VerificationDrawerActivity extends AppCompatActivity
     static int responseCode2;
 
     private Register register;
+    private Verify verify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,10 @@ public class VerificationDrawerActivity extends AppCompatActivity
         cell= resultt.getText().toString();
         password= rpassword.getText().toString();
 
-        register = new Register();
-        register.sendPost();
+
+
+
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -181,11 +184,19 @@ public class VerificationDrawerActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        if (confirmpassword.getText().toString().equals(rpassword.getText().toString() )){
+        name=rname.getText().toString();
+        email= remail.getText().toString();
+        cell= resultt.getText().toString();
+        password= rpassword.getText().toString();
+        if (confirmpassword.getText().toString().equals(password )){
+            register = new Register();
+
+            register.sendPost();
+
 
             Toast.makeText(getApplicationContext(), "pin "+randomPIN,
                 Toast.LENGTH_LONG).show();
-            Toast.makeText(getApplicationContext(), "Response Code"+Register.responseCode,
+            Toast.makeText(getApplicationContext(), "Response Code"+register.responseCode,
                     Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), "uri parameters"+register.urlParameters,
                     Toast.LENGTH_LONG).show();
@@ -204,6 +215,7 @@ public class VerificationDrawerActivity extends AppCompatActivity
         alertDialogBuilder.setView(promptsView);
 
         final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+            final EditText userInput2 = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput2);
         final TextView timer = (TextView) promptsView.findViewById(R.id.textView2);
         new CountDownTimer(90000, 1000) {
 
@@ -228,7 +240,20 @@ public class VerificationDrawerActivity extends AppCompatActivity
                                 // edit text
 
                                 otp= userInput.getText().toString();
-                                validatePin();
+                                otp2= userInput2.getText().toString();
+                                verify = new Verify();
+
+                                verify.Verifyy();
+                                Toast.makeText(getApplicationContext(), "Response Code"+verify.responseCode,
+                                        Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "uri parameters"+verify.urlParameters,
+                                        Toast.LENGTH_LONG).show();
+
+                                Toast.makeText(getApplicationContext(), "new response"+verify.changedResponse,
+                                        Toast.LENGTH_LONG).show();
+
+
+
                             }
                         })
                 .setNegativeButton("Cancel",

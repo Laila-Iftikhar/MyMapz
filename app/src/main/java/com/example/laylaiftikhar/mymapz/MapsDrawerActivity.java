@@ -45,6 +45,10 @@ public class MapsDrawerActivity extends FragmentActivity
     public static String finalLocation;
     public static ArrayList<String> savedLocations = new ArrayList<String>();
     Button regionbutton, saveloc;
+    private SaveLocations saveuserlocations;
+    private DisplayCrime displaycrime;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,8 +160,13 @@ public class MapsDrawerActivity extends FragmentActivity
                 //insert();
             }
             case R.id.savelocations: {
-                startActivity(new Intent(this, MyLocationsActivity.class));
+
                 savedLocations.add(finalLocation);
+                saveuserlocations= new SaveLocations();
+                saveuserlocations.savelocations();
+                displaycrime= new DisplayCrime();
+                displaycrime.showlocations();
+                startActivity(new Intent(this, MyLocationsActivity.class));
 
 
                 break;

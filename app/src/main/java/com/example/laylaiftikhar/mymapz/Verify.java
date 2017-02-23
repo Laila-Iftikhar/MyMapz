@@ -12,33 +12,34 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Layla Iftikhar on 2/20/2017.
+ * Created by Layla Iftikhar on 2/22/2017.
  */
 
-public class Register extends AsyncTask<Void, Void, Void> {
+public class Verify extends AsyncTask<Void, Void, Void> {
     static int responseCode;
     public StringBuffer response;
     public String urlParameters;
     public DataOutputStream wr;
     public String changedResponse;
-    public static String namec, emailc, cellc, passwordc, statusregister;
+    public static String cellc, emailc, otp1c, otp2c, statusverify;
 
-    public void sendPost() {
-        namec=VerificationDrawerActivity.name;
+    public void Verifyy() {
+
         emailc=VerificationDrawerActivity.email;
         cellc=VerificationDrawerActivity.cell;
-        passwordc= VerificationDrawerActivity.password;
+        otp1c= VerificationDrawerActivity.otp;
+        otp2c= VerificationDrawerActivity.otp2;
 
-         this.executeOnExecutor(THREAD_POOL_EXECUTOR);
+
+        this.executeOnExecutor(THREAD_POOL_EXECUTOR);
     }
-
     @Override
     protected Void doInBackground(Void... params) {
         final String TAG="ERROR TEXT MESSAGE";
 
         try {
 
-            String url = "http://r-cube.tk/api/register";
+            String url = "http://r-cube.tk/api/verify_user";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -47,8 +48,8 @@ public class Register extends AsyncTask<Void, Void, Void> {
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-            urlParameters = "name="+namec+"&email="+emailc+"&cell="+cellc+"&password="+passwordc;
-            //urlParameters = "name=Ali&email=13beselchaudhry@seecs.edu.pk&cell=03369177747&password=123456";
+            //urlParameters = "cell="+cellc+"&cell_auth_code"+otp1c+"email_auth_code"+otp2c;
+            urlParameters = "cell="+cellc+"&cell_auth_code="+otp1c+"&email_auth_code="+otp2c;
 
 
             // Send post request
@@ -72,16 +73,16 @@ public class Register extends AsyncTask<Void, Void, Void> {
                 // entity=response.getEntity;
             }
             in.close();
+            //print result
             changedResponse = response.toString();
             Log.d(TAG, "HELLO THIS IS THE RESPONSE" +changedResponse);
             JSONObject jsonObj = new JSONObject(changedResponse);
-            statusregister    = jsonObj.getString("token");
-            Log.d(TAG, "HELLO THIS IS THE register status VALUE" + statusregister);
-            //print result
-
+            statusverify    = jsonObj.getString("status");
+            Log.d(TAG, "HELLO THIS IS THE verifystatus VALUE" + statusverify);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+
     }
 }

@@ -24,7 +24,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CrimeDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -32,8 +36,9 @@ public class CrimeDrawerActivity extends AppCompatActivity
     private RadioButton radioSexButton;
     private Button btnDisplay;
     private EditText locations;
-    public static String finalreported;
+    public static String finalreported,reportingtime,reportingdate, crime;
     public static ArrayList<String> Reported = new ArrayList<String>();
+    private ReportCrime reportthecrime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +151,24 @@ public class CrimeDrawerActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
+
+        DateFormat df = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+        Date dateobj = new Date();
+        reportingdate=df.format(dateobj);
+
+        Toast.makeText(CrimeDrawerActivity.this,
+                df.format(dateobj), Toast.LENGTH_SHORT).show();
+
+
+
+       /*getting current date time using calendar class
+        * An Alternative of above*/
+        Calendar calobj = Calendar.getInstance();
+        reportingtime=df.format(calobj.getTime());
+
+        Toast.makeText(CrimeDrawerActivity.this,
+                df.format(calobj.getTime()), Toast.LENGTH_SHORT).show();
+
         // get selected radio button from radioGroup
         int selectedId = radioSexGroup.getCheckedRadioButtonId();
 
@@ -154,8 +177,13 @@ public class CrimeDrawerActivity extends AppCompatActivity
 
         Toast.makeText(CrimeDrawerActivity.this,
                 radioSexButton.getText(), Toast.LENGTH_SHORT).show();
+        crime= radioSexButton.getText().toString();
         finalreported= "Crime"+radioSexButton.getText()+"Reported at"+MapsDrawerActivity.finalLocation;
         Reported.add(finalreported);
+
+        reportthecrime= new ReportCrime();
+        reportthecrime.reportcrime();
+
 
     }
 

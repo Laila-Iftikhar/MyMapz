@@ -45,8 +45,10 @@ public class HomeDrawerActivity extends AppCompatActivity
     int code;
     Button loginButton;
     TextView signup;
-    EditText et_username, et_password;
-    public static String phone, password;
+    EditText et_username, et_password, et_phone;
+    public static String phone, password, phone2;
+    private Login login;
+
 
 
     @Override
@@ -59,6 +61,7 @@ public class HomeDrawerActivity extends AppCompatActivity
         loginButton.setOnClickListener(this);
         et_username= (EditText) findViewById(R.id.input_email);
         et_password= (EditText) findViewById(R.id.input_password);
+        et_phone= (EditText) findViewById(R.id.input_phone);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -238,84 +241,26 @@ public class HomeDrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void insert()
-    {
-        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
-        nameValuePairs.add(new BasicNameValuePair("phone",phone));
-        nameValuePairs.add(new BasicNameValuePair("password",password));
-
-        try
-        {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://192.168.1.5:8080/select.php");
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            HttpResponse response = httpclient.execute(httppost);
-            HttpEntity entity = response.getEntity();
-            is = entity.getContent();
-            Log.e("pass 1", "connection success ");
-        }
-        catch(Exception e)
-        {
-            Log.e("Fail 1", e.toString());
-            Toast.makeText(getApplicationContext(), "Invalid IP Address",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        try
-        {
-            BufferedReader reader = new BufferedReader
-                    (new InputStreamReader(is,"iso-8859-1"),8);
-            StringBuilder sb = new StringBuilder();
-            while ((line = reader.readLine()) != null)
-            {
-                sb.append(line + "\n");
-            }
-            is.close();
-            result = sb.toString();
-            Log.e("pass 2", "connection success ");
-        }
-        catch(Exception e)
-        {
-            Log.e("Fail 2", e.toString());
-        }
-
-        try
-        {
-            JSONObject json_data = new JSONObject(result);
-            code=(json_data.getInt("code"));
-
-            if(code==1)
-            {
-                Toast.makeText(getBaseContext(), "Inserted Successfully",
-                        Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(getBaseContext(), "Sorry, Try Again",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-        catch(Exception e)
-        {
-            Log.e("Fail 3", e.toString());
-        }
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login: {
-                if(et_username.getText().toString().equals("03007252112")&&et_password.getText().toString().equals("laila")){
-                startActivity(new Intent(this, MapsDrawerActivity.class));}
-                else{
-                    Toast.makeText(getBaseContext(), "Wrong Credentials, login failed",
-                            Toast.LENGTH_LONG).show();
-                }
-                //break;
+
+
+
                 phone = et_username.getText().toString();
                 password = et_password.getText().toString();
-                break;
+                phone2= et_phone.getText().toString();
+                login= new Login();
+                login.Loginn();
+
+                startActivity(new Intent(HomeDrawerActivity.this, MapsDrawerActivity.class));
+
+
+                    break;
+
                 //insert();
             }
             case R.id.link_signup: {

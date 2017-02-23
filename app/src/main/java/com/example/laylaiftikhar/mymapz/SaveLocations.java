@@ -12,24 +12,25 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Layla Iftikhar on 2/20/2017.
+ * Created by Layla Iftikhar on 2/22/2017.
  */
 
-public class Register extends AsyncTask<Void, Void, Void> {
+public class SaveLocations extends AsyncTask<Void, Void, Void> {
     static int responseCode;
     public StringBuffer response;
     public String urlParameters;
     public DataOutputStream wr;
     public String changedResponse;
-    public static String namec, emailc, cellc, passwordc, statusregister;
+    public static String apitoken, mylocations, statuslocations;
 
-    public void sendPost() {
-        namec=VerificationDrawerActivity.name;
-        emailc=VerificationDrawerActivity.email;
-        cellc=VerificationDrawerActivity.cell;
-        passwordc= VerificationDrawerActivity.password;
+    public void savelocations() {
+        apitoken= Login.token;
 
-         this.executeOnExecutor(THREAD_POOL_EXECUTOR);
+       // String[] arrays= MapsDrawerActivity.savedLocations.toArray(new String[0]);
+        mylocations= MapsDrawerActivity.finalLocation;
+
+
+        this.executeOnExecutor(THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class Register extends AsyncTask<Void, Void, Void> {
 
         try {
 
-            String url = "http://r-cube.tk/api/register";
+            String url = "http://r-cube.tk/api/store_userlocation";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -47,7 +48,7 @@ public class Register extends AsyncTask<Void, Void, Void> {
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-            urlParameters = "name="+namec+"&email="+emailc+"&cell="+cellc+"&password="+passwordc;
+            urlParameters = "api_token="+apitoken+"&user_locations="+mylocations;
             //urlParameters = "name=Ali&email=13beselchaudhry@seecs.edu.pk&cell=03369177747&password=123456";
 
 
@@ -72,12 +73,18 @@ public class Register extends AsyncTask<Void, Void, Void> {
                 // entity=response.getEntity;
             }
             in.close();
-            changedResponse = response.toString();
-            Log.d(TAG, "HELLO THIS IS THE RESPONSE" +changedResponse);
-            JSONObject jsonObj = new JSONObject(changedResponse);
-            statusregister    = jsonObj.getString("token");
-            Log.d(TAG, "HELLO THIS IS THE register status VALUE" + statusregister);
             //print result
+            changedResponse = response.toString();
+
+
+
+            Log.d(TAG, "HELLO THIS IS THE STATUS" + changedResponse);
+            JSONObject jsonObj = new JSONObject(changedResponse);
+            statuslocations    = jsonObj.getString("status");
+            Log.d(TAG, "HELLO THIS IS THE JSONOBJECT VALUE" + statuslocations);
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

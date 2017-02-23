@@ -63,7 +63,7 @@
             <EditText android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:hint="password"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -75,7 +75,7 @@
             <EditText android:id="@+id/input_confirmpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:hint="confirm password"/>
 
 

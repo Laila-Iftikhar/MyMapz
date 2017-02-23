@@ -22,6 +22,8 @@ public class MyLocationsActivity extends AppCompatActivity
     public static ListView listView;
     public static String itemValue;
 
+    public static  ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,11 +116,15 @@ public class MyLocationsActivity extends AppCompatActivity
         return true;
     }
     public void showstatesList() {
+
         listView = (ListView) findViewById(R.id.list);
         String[] statesList = {"listItem 1", "listItem 2", "listItem 3"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+
+
+       adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, MapsDrawerActivity.savedLocations);
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

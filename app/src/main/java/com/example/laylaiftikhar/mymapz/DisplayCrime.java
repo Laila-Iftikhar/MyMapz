@@ -3,6 +3,7 @@ package com.example.laylaiftikhar.mymapz;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -12,33 +13,32 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Layla Iftikhar on 2/20/2017.
+ * Created by Layla Iftikhar on 2/24/2017.
  */
 
-public class Register extends AsyncTask<Void, Void, Void> {
+public class DisplayCrime extends AsyncTask<Void, Void, Void> {
     static int responseCode;
     public StringBuffer response;
     public String urlParameters;
     public DataOutputStream wr;
     public String changedResponse;
-    public static String namec, emailc, cellc, passwordc, statusregister;
+    public static String cellc, emailc, apitoken, statusdisplaylocations, locations;
 
-    public void sendPost() {
-        namec=VerificationDrawerActivity.name;
-        emailc=VerificationDrawerActivity.email;
-        cellc=VerificationDrawerActivity.cell;
-        passwordc= VerificationDrawerActivity.password;
+    public void showlocations() {
+        apitoken= Login.token;
 
-         this.executeOnExecutor(THREAD_POOL_EXECUTOR);
+
+
+
+        this.executeOnExecutor(THREAD_POOL_EXECUTOR);
     }
-
     @Override
     protected Void doInBackground(Void... params) {
         final String TAG="ERROR TEXT MESSAGE";
 
         try {
 
-            String url = "http://r-cube.tk/api/register";
+            String url = "http://r-cube.tk/api/get_user_location";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -47,8 +47,8 @@ public class Register extends AsyncTask<Void, Void, Void> {
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-            urlParameters = "name="+namec+"&email="+emailc+"&cell="+cellc+"&password="+passwordc;
-            //urlParameters = "name=Ali&email=13beselchaudhry@seecs.edu.pk&cell=03369177747&password=123456";
+            //urlParameters = "cell="+cellc+"&cell_auth_code"+otp1c+"email_auth_code"+otp2c;
+            urlParameters = "api_token="+apitoken;
 
 
             // Send post request
@@ -72,16 +72,32 @@ public class Register extends AsyncTask<Void, Void, Void> {
                 // entity=response.getEntity;
             }
             in.close();
+            //print result
             changedResponse = response.toString();
             Log.d(TAG, "HELLO THIS IS THE RESPONSE" +changedResponse);
             JSONObject jsonObj = new JSONObject(changedResponse);
-            statusregister    = jsonObj.getString("token");
-            Log.d(TAG, "HELLO THIS IS THE register status VALUE" + statusregister);
-            //print result
+            statusdisplaylocations    = jsonObj.getString("status");
+            Log.d(TAG, "HELLO THIS IS THE SHOW LOCATIONS STATUS VALUE" + statusdisplaylocations);
+
+            JSONArray jarray = jsonObj.getJSONArray("data");
+            //allreports =  jarray.getJSONObject(0).getString("user_locations");
+            //Log.d(TAG, "HELLO these are the locations" +allreports);
+
+            for (int i = 0; i < jarray.length(); ++i) {
+                JSONObject rec = jarray.getJSONObject(i);
+
+                 locations = rec.getString("user_locations");
+                Log.d(TAG, "HELLO these are the locations" +locations);
+                MapsDrawerActivity.savedLocations.add(locations);
+
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+
     }
 }
