@@ -30,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -47,6 +48,7 @@ public class MapsDrawerActivity extends FragmentActivity
     Button regionbutton, saveloc;
     private SaveLocations saveuserlocations;
     private DisplayCrime displaycrime;
+    private ReportAllCrimes viewcrimes;
 
 
 
@@ -83,6 +85,8 @@ public class MapsDrawerActivity extends FragmentActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -166,6 +170,7 @@ public class MapsDrawerActivity extends FragmentActivity
                 saveuserlocations.savelocations();
                 displaycrime= new DisplayCrime();
                 displaycrime.showlocations();
+
                 startActivity(new Intent(this, MyLocationsActivity.class));
 
 
@@ -218,7 +223,38 @@ public class MapsDrawerActivity extends FragmentActivity
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
                     Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                    List<Address> addresses=null;
+                    List<Address> addresses = null;
+
+
+                    //adding markers to maps
+                    viewcrimes = new ReportAllCrimes();
+                    viewcrimes.showcrimes();
+                    int size = ReportAllCrimes.savedcoordinates.size();
+
+                    for (int i = 0; i < size; ++i) {
+                        LatLng coordinate = ReportAllCrimes.savedcoordinates.get(i);
+                        String crimenamess = ReportAllCrimes.crimenames.get(i);
+
+                        mMap.addMarker(new MarkerOptions()
+                                .position(coordinate)
+                                .title(crimenamess + (i + 1))
+                                .snippet("Snippet" + (i + 1))
+                                .icon(BitmapDescriptorFactory
+                                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                .anchor(0.5f, 0.5f));
+
+
+
+
+
+
+
+
+                    }
+
+
+
+
 
 
                     try {
@@ -231,6 +267,10 @@ public class MapsDrawerActivity extends FragmentActivity
 
 
                         finalLocation= fknownName+", "+fstateName+", "+fcountryName;
+
+
+
+
 
                     } catch (Exception e) {
                         e.printStackTrace();

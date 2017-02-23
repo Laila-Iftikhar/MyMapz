@@ -16,36 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="-50dip"
-            android:orientation="horizontal"
-            >
 
-            <Button
-                android:id="@+id/button1"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button" />
-
-            <Button
-                android:id="@+id/button2"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button" />
-
-            <Button
-                android:id="@+id/button3"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_gravity="fill_vertical"
-                android:text="Button" />
-        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,6 +39,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="harrassment" />
+
+            <RadioButton
+                android:id="@+id/radioShooting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shooting" />
+            <RadioButton
+                android:id="@+id/radioSnatching"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Snatching" />
+
+            <RadioButton
+                android:id="@+id/radioOthers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Others" />
+
 
         </RadioGroup>
 
